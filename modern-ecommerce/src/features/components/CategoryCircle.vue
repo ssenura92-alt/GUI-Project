@@ -1,30 +1,52 @@
-<!-- src/features/components/CategoryCircle.vue -->
-<script setup lang="ts">
-defineProps<{ 
-  name: string, 
-  image: string,
-  isActive: boolean 
-}>()
-
-defineEmits(['select'])
-</script>
-
 <template>
   <div 
     @click="$emit('select')" 
-    class="flex flex-col items-center gap-3 cursor-pointer group"
+    class="flex flex-col items-center cursor-pointer group shrink-0 select-none"
   >
-    <div :class="[
-      'w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm border-2',
-      isActive ? 'bg-[#f0627e] border-[#f0627e] scale-110 shadow-lg' : 'bg-gray-100 border-transparent hover:border-gray-300'
-    ]">
-      <img :src="image" :alt="name" class="w-10 h-10 object-contain group-hover:scale-110 transition-transform" />
+    <div 
+      class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white dark:bg-gray-900 border-2 flex items-center justify-center shadow-sm transition-all duration-300 group-hover:scale-105"
+      :class="isActive ? 'border-[#f04343] ring-4 ring-red-500/10' : 'border-gray-100 dark:border-gray-800'"
+    >
+      <img 
+        :src="image" 
+        :alt="name" 
+        class="w-12 h-12 md:w-14 md:h-14 object-contain transition-all duration-300 opacity-30 group-hover:opacity-100 dark:opacity-40 dark:group-hover:opacity-100 dark:invert" 
+        :class="{ 'opacity-100 dark:opacity-100': isActive }"
+      />
     </div>
-    <span :class="[
-      'text-xs font-bold uppercase tracking-widest transition-colors',
-      isActive ? 'text-[#f0627e]' : 'text-[#00155a] group-hover:text-pink-500'
-    ]">
-      {{ name }}
+
+    <span 
+      class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 mt-4 text-center transition-colors px-2"
+      :class="{ 'text-[#f04343] dark:text-[#f04343] font-black': isActive }"
+    >
+      {{ displayName }}
     </span>
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  name: string;
+  image: string;
+  isActive: boolean;
+}>();
+
+defineEmits<{
+  (e: 'select'): void;
+}>();
+
+const displayName = computed(() => {
+  switch (props.name.toLowerCase()) {
+    case 'all': return 'All Products'
+    case 'laptops': return 'Gaming & Premium Laptops'
+    case 'smartphones': return 'Workstation & Smartphones'
+    case 'tablets': return 'Used PC & Tablets'
+    case 'accessories': return 'Laptop & Desktop Accessories'
+    case 'lighting': return 'Smart Ambient Lighting'
+    case 'automotive': return 'Automotive Electronics'
+    default: return props.name
+  }
+})
+</script>

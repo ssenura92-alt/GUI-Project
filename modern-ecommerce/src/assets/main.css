@@ -2,3 +2,22 @@
   /* Your theme customizations go here later */
 }
 @import "tailwindcss";
+
+
+
+/* 👈 Tailwind v4 වලට class strategy එක සක්‍රීය කිරීමට මේ පේළිය අනිවාර්යයෙන්ම එකතු කරන්න */
+@variant dark (&:where(.dark, .dark *));
+/* 👈 මෙන්න මේ කොටස ඔයාගේ CSS ෆයිල් එකේ අගටම එකතු කරන්න */
+@layer base {
+  html.dark {
+    --background: #030712;
+    --text: #f9fafb;
+    color-scheme: dark;
+  }
+  
+  html {
+    --background: #ffffff;
+    --text: #111827;
+    color-scheme: light;
+  }
+}
